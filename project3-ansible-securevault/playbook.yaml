@@ -1,0 +1,12 @@
+- name: Read database password from Ansible Vault
+  hosts: localhost
+  connection: local
+
+  vars_files:
+    - vault.yml
+
+  tasks:
+
+    - name: Print database password
+      ansible.builtin.debug:
+        msg: "Database password is {{ db_password }}"

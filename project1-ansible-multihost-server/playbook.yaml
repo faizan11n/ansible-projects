@@ -1,0 +1,25 @@
+---
+- name: Configure web servers
+  hosts: webservers
+  become: true
+  tasks:
+    - name: Install httpd
+      dnf:
+        name: httpd
+        state: present
+
+    - name: Start and enable httpd
+      service:
+        name: httpd
+        state: started
+        enabled: true
+
+- name: Configure databases servers
+  hosts: dbservers
+  become: true
+  tasks:
+    - name: Create a database admin user
+      user:
+        name: dbadmin
+        state: present
+        shell: /bin/bash

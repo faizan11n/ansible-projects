@@ -1,0 +1,21 @@
+- name: Create multiple users
+  hosts: servers
+  become: true
+
+  vars_files:
+    - vars.yaml
+
+  tasks:
+
+    - name: Create groups
+      ansible.builtin.group:
+        name: "{{ item.group }}"
+        state: present
+      loop: "{{ users }}"
+
+    - name: Create users
+      ansible.builtin.user:
+        name: "{{ item.name }}"
+        group: "{{ item.group }}"
+        state: present
+      loop: "{{ users }}"

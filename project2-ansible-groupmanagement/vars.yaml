@@ -1,0 +1,9 @@
+users:
+  - name: devuser
+    group: developers
+
+  - name: testuser
+    group: testers
+
+  - name: opsuser
+    group: operators
