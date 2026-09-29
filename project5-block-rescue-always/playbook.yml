@@ -1,0 +1,31 @@
+---
+- name: Block, rescue, and always demo
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Attempt a risky operation with error handling
+      block:
+        - name: Try to install a package that does not exist (will fail)
+          dnf:
+            name: this-package-does-not-exist-12345
+            state: present
+
+        - name: This task will be skipped because the above task failed
+          debug:
+            msg: "You won't see this message"
+
+      rescue:
+        - name: Log that the install failed
+          debug:
+            msg: "Package install failed! Falling back to installing 'git' instead."
+
+        - name: Install a fallback package that does exist
+          dnf:
+            name: git
+            state: present
+
+      always:
+        - name: This always runs, whether block succeeded or failed
+          debug:
+            msg: "Cleanup step: this always executes, regardless of success or failure."
